@@ -1,16 +1,19 @@
+import dotenv from 'dotenv';
 import express from "express";
 import connectDB from "./db/connectdb.js";
 import cors from "cors";
 import userRouter from "./routers/userRouter.js";
-
+dotenv.config();
 const app = express();
 app.use(cors());
-const port = process.env.PORT || "8001"; //api port
+const port = process.env.PORT 
 
-const DATABASE_URL = 'mongodb+srv://priyankacoder11:never458032@cluster0.7lzfz.mongodb.net/'; //database port
+
+const DATABASE_URL = process.env.DATABASE_URL ; 
 
 //db connection
 connectDB(DATABASE_URL);
+
 app.use(express.json());
 
 //routers

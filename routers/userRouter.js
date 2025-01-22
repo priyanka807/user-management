@@ -14,7 +14,7 @@ userRouter.post(
       id:req.body.id,
       name: req.body.name,
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 8),
+      password: bcrypt.hashSync(req.body.password,process.env.BCRYPT_URL),
       role: req.body.role,
     });
     const createdUser = await user.save();
@@ -55,7 +55,7 @@ userRouter.put(
       id:req.body.id,
       name: req.body.name,
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 8),
+      password: bcrypt.hashSync(req.body.password,process.env.BCRYPT_URL),
       role: req.body.role,
     });
 
