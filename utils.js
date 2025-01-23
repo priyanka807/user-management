@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
+import { configDotenv } from "dotenv";
 
 //to generate token
 export const generateToken = (user) => {
   return jwt.sign(
     {
       _id: user._id,
-      name: user.name,
-      email: user.email,
+      // name: user.name,
+      // email: user.email,
     },
     process.env.JWT_SECRET || "somethingsecret",
     { expiresIn: "30d" }
@@ -34,3 +35,5 @@ export const generateToken = (user) => {
 //     res.status(401).send({ message: "No Token" });
 //   }
 // };
+
+
