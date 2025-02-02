@@ -24,9 +24,10 @@ res.send(result)
 userListRouter.get("/user-list/:id",
     expressAsyncHandler(async(req,res)=>{
         const userId = req.params.id
-        console.log(userId,'userId')
+      const userEmail = req.params.email;
+        console.log(userId, userEmail, 'userId & userEmail');
 try{
-const result =await UserListModala.findById({_id:userId})
+const result =await UserListModala.findOne({_id:userId,email:userEmail})
 console.log(result,'result')
 res.send(result)
 }catch(error){
