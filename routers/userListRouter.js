@@ -21,20 +21,28 @@ res.send(result)
 )
 
 
-userListRouter.get("/user-list/:id",
-    expressAsyncHandler(async(req,res)=>{
-        const userId = req.params.id
-      const userEmail = req.params.email;
+userListRouter.get("/user-list/:id/:email", 
+    expressAsyncHandler(async (req, res) => {
+        const userId = req.params.id;
+        const userEmail = req.params.email;
         console.log(userId, userEmail, 'userId & userEmail');
-try{
-const result =await UserListModala.findOne({_id:userId,email:userEmail})
-console.log(result,'result')
-res.send(result)
-}catch(error){
-    console.log(error,'error')
-}
+
+        try {
+            const result = await UserListModala.findOne({ _id: userId, email: userEmail });
+
+            if (!result) {
+                return res.status(404).send({ message: "User not found" });
+            }
+
+            console.log(result, 'result');
+            res.send(result);
+        } catch (error) {
+            console.log(error, 'error');
+            res.status(500).send({ message: "Something went wrong", error });
+        }
     })
-)
+);
+
 
 
 
