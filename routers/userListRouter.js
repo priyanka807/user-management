@@ -21,6 +21,22 @@ res.send(result)
 )
 
 
+userListRouter.get("/user-list/:id",
+    expressAsyncHandler(async(req,res)=>{
+        const userId = req.params.id
+        console.log(userId,'userId')
+try{
+const result =await UserListModala.findById({_id:userId})
+console.log(result,'result')
+res.send(result)
+}catch(error){
+    console.log(error,'error')
+}
+    })
+)
+
+
+
 userListRouter.post("/user-list",expressAsyncHandler(async(req,res)=>{
 const {email,firstName,lastName,password,role} = req.body
 
@@ -43,13 +59,7 @@ const {email,firstName,lastName,password,role} = req.body
 
  const createdUser =  await   newUser.save();
     
-    res.status(200).send({email:createdUser.email,
-        firstName:createdUser.firstName,
-        lastName:createdUser.lastName,
-        password:createdUser.password,
-        role:createdUser.role
-    
-    })
+    res.status(200).send(createdUser)
 
     }catch(error){
         console.log(error,'error')
