@@ -3,10 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 import expressAsyncHandler from 'express-async-handler'
 import UserListModala from '../modals/UserList.js';
-
 import bcrypt from 'bcryptjs'
-
-
 const userListRouter =  express.Router()
 userListRouter.get("/user-list",
     expressAsyncHandler(async(req,res)=>{
@@ -128,6 +125,7 @@ userListRouter.put("/user-list/:id",expressAsyncHandler(async(req,res)=>{
                 }
             }))
     
+
 
 export default userListRouter;
 
