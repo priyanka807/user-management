@@ -11,6 +11,7 @@ const loginRouter = express.Router()
 loginRouter.post("/login-user",
     expressAsyncHandler(async(req,res)=>{
    const {email,password}  = req.body
+   console.log(email,password,'email,password')
 try{
 const existedUser = await  UserListModala.findOne({email})
 const user = await new LoginUserModala({email,password})
@@ -28,10 +29,13 @@ const loginuser = await user.save()
 const token = generateToken({_id:loginuser._id})
 res.cookie('authenthication',token,{httpOnly:true,secure:process.env.NODE_ENV==='production',sameSite:'strict', maxAge: 30 * 24 * 60 * 60 * 1000,})
 
-res.status(201).send({_id:loginuser._id,email:loginuser.email,password:loginuser.password,token:token})
+const loginUserInfo = await  UserListModala.find({email:loginuser.email}).select("-password")
+res.status(201).send(loginUserInfo)
+
+// res.status(201).send({_id:loginuser._id,email:loginuser.email,password:loginuser.password,token:token})
 }catch(error){
-    res.status(500).send(error)
-console.log(error,'error')
+    res.status(401).send(error.message)
+    console.log(error,'error')
 }
 }))
 

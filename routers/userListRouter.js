@@ -9,7 +9,7 @@ userListRouter.get("/user-list",
     expressAsyncHandler(async(req,res)=>{
 try{
 const result =await UserListModala.find()
-console.log(result,'result')
+
 res.send(result)
 }catch(error){
     console.log(error,'error')
@@ -24,7 +24,8 @@ userListRouter.get("/user-list/:id",
         console.log(userId,'userId')
         try {
             const result = await UserListModala.findById(userId);
-            console.log(result, 'result');
+//             result.password  = password
+//  console.log()
             res.send(result);
         } catch (error) {
             console.log(error,'error')     
@@ -37,12 +38,11 @@ userListRouter.get("/user-list/:id",
 
 
 userListRouter.post("/user-list",expressAsyncHandler(async(req,res)=>{
-const {email,firstName,lastName,password,role} = req.body
+const {email,firstName,lastName,password,role,confirm_password} = req.body
 
     try{
 
-        const newUser = await new UserListModala({email,firstName,lastName,password,role})
-        newUser.password = bcrypt.hashSync(password,parseInt(process.env.BCRYPT_URL))
+        const newUser = await new UserListModala({email,firstName,lastName,password,confirm_password,role})
 
  if(newUser.email===""||newUser.firstName===""||newUser.lastName===""||newUser.role===""){
     throw new Error("All fields are required. Please fill them in.")
@@ -55,12 +55,17 @@ const {email,firstName,lastName,password,role} = req.body
     }
  }
 
+ if(password!==confirm_password){
+    throw new Error("Password must matched .")
+ }
+ newUser.password = bcrypt.hashSync(password,parseInt(process.env.BCRYPT_URL))
 
  const createdUser =  await   newUser.save();
-    
+
     res.status(200).send(createdUser)
 
     }catch(error){
+        res.status(401).send(error.message)
         console.log(error,'error')
     }
 }))

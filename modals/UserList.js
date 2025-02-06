@@ -6,6 +6,7 @@ email: { type: String,  trim: true },
 firstName: { type: String,trim: true},
 lastName: { type: String, trim: true },
 password: { type: String,  trim: true },
+confirm_password: { type: String,  trim: true },
 role: { type: String, trim: true }
 });
 
